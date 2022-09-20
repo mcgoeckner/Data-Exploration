@@ -8,7 +8,9 @@ Where
   continent is not null 
 order by 
   location,date;
-
+  
+  
+####################################
 -- Select Data that we are going to be starting with
 Select 
   Location, 
@@ -24,8 +26,11 @@ Where
 order by 
   iso_code, Continent;
 
+
+####################################
 -- Total Cases vs Total Deaths
 -- Shows likelihood of dying if you contract covid in your country
+
 Select 
   location, 
   date, 
@@ -35,8 +40,9 @@ Select
 From 
   portfolio-projects-363114.Covid.CovidDeaths
 order by 
-  date
+  date;
  
+ ####################################
 -- Total Cases vs Population
 -- Shows what percentage of population infected with Covid
 Select 
@@ -50,6 +56,8 @@ Group by
   Location, 
   Population
 
+
+####################################
 -- Countries with Highest Infection Rate compared to Population
 Select 
   location,
@@ -63,6 +71,8 @@ Group by
 Order by 
   total_death_count DESC
 
+
+####################################
 -- Countries with Highest Death Count per Population
 Select 
   continent, 
@@ -76,6 +86,8 @@ Group by
 Order by 
   total_death_count DESC
 
+
+####################################
 -- BREAKING THINGS DOWN BY CONTINENT
 
 -- Showing contintents with the highest death count per population
@@ -91,6 +103,8 @@ Group by
 order by 
   total_death_count DESC
 
+
+####################################
 --Global Numbers
 
 Select 
@@ -104,11 +118,16 @@ Where
 Order by
   total_cases
 
+
+####################################
 -- Total Population vs Vaccinations
 -- Shows Percentage of Population that has recieved at least one Covid Vaccine
 Select 
   dea.continent,
   dea.location,
+  dea.date, 
+  dea.population, 
+  vac.new_vaccinations, 
   SUM(cast(vac.new_vaccinations as int)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
 From 
   portfolio-projects-363114.Covid.CovidDeaths dea
@@ -125,9 +144,9 @@ Group by
   vac.new_vaccinations
 needs help
 
---neeeds to be confirmed
 
--- Using CTE to perform Calculation on Partition By in previous query
+####################################
+-- Create a table using previous query
 
 Create Table 
   `portfolio-projects-363114.Covid.PopvsVac` as
@@ -158,7 +177,7 @@ From
   portfolio-projects-363114.Covid.PopvsVac
 
 
-
+####################################
 -- Using Temp Table to perform Calculation on Partition By in previous query
 
 Create Table 
